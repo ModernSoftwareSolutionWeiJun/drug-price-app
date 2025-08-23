@@ -1,57 +1,85 @@
-// Data model: drug -> strengths -> price per unit
-const PRICES = {
-  // Paracetamol: { "250 mg": 0.20, "500 mg": 0.35, "1 g": 0.60 },
-  // Ibuprofen:   { "200 mg": 0.25, "400 mg": 0.45, "600 mg": 0.65 },
-  // Amoxicillin: { "250 mg": 0.55, "500 mg": 0.95 },
-  // "Metformin": { "500 mg": 0.30, "850 mg": 0.45, "1 g": 0.55 },
-    Mounjaro: {
-    "2.5 mg": 283,
-    "5 mg": 350,
-    "7.5 mg": 500,
-    "10 mg": 500,
-    "12.5 mg": 630,
-    "15 mg": 630
-  },
-  "Wegovy/Semaglutide": {
-    "2.5 mg": 250,
-    "5 mg": 250,
-    "10 mg": 250,
-    "17.5 mg": 435,
-    "25 mg": 435
-  }
-};
-
+// Currency formatter
 const currency = new Intl.NumberFormat(undefined, {
   style: "currency",
   currency: "USD",
   minimumFractionDigits: 2
 });
 
-function populateTable(id, data) {
-  const table = document.getElementById(id);
-  if (!table) return;
+// Price data
+const PRICES = {
+  Mounjaro: {
+    "2.5mg": 550,
+    "5mg": 600,
+    "7.5mg": 650,
+    "10mg": 700,
+    "12.5mg": 750,
+    "15mg": 800
+  },
+  Wegovy: {
+    "0.25mg": 120,
+    "0.5mg": 200,
+    "1mg": 350,
+    "1.7mg": 400,
+    "2.4mg": 450
+  }
+};
 
-  // Build header
+// Populate a table with strengths and inputs
+function renderTable(drug, tableId) {
+  const table = document.getElementById(tableId);
   table.innerHTML = `
     <thead>
       <tr>
         <th>Strength</th>
-        <th>Price (per unit)</th>
+        <th>Unit Price</th>
+        <th>Qty</th>
+        <th>Total</th>
       </tr>
     </thead>
     <tbody>
-      ${Object.entries(data)
-        .map(([strength, price]) => `
+      ${Object.entries(PRICES[drug])
+        .map(
+          ([strength, price]) => `
           <tr>
             <td>${strength}</td>
             <td>${currency.format(price)}</td>
+            <td>
+              <input type="number" 
+                     class="qty-input" 
+                     min="0" 
+                     data-drug="${drug}" 
+                     data-strength="${strength}" 
+                     data-price="${price}" 
+                     style="width:70px">
+            </td>
+            <td class="total-cell"></td>
           </tr>
-        `)
-        .join('')}
+        `
+        )
+        .join("")}
     </tbody>
   `;
 }
 
-// Initialize tables
-populateTable('mounjaroTable', DRUG_DATA.Mounjaro);
-populateTable('wegovyTable', DRUG_DATA["Wegovy/Semaglutide"]);
+// Handle qty input changes
+function handleQtyInput(e) {
+  if (!e.target.classList.contains("qty-input")) return;
+
+  const qty = parseInt(e.target.value, 10) || 0;
+  const price = parseFloat(e.target.dataset.price);
+  const totalCell = e.target.closest("tr").querySelector(".total-cell");
+
+  if (qty > 0) {
+    totalCell.textContent = currency.format(price * qty);
+    totalCell.style.color = "var(--success)";
+  } else {
+    totalCell.textContent = "";
+  }
+}
+
+// Init tables
+renderTable("Mounjaro", "mounjaroTable");
+renderTable("Wegovy", "wegovyTable");
+
+// Listen for qty changes (event delegation)
+document.addEventListener("input", handleQtyInput);
