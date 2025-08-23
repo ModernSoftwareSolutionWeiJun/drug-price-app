@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Drug Price Calculator</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <h1>Drug Price Calculator</h1>
+    <p class="tagline">Pick a drug and strength to check the price.</p>
+  </header>
+
+  <main class="card">
+    <form id="priceForm" onsubmit="event.preventDefault(); calculatePrice();">
+      <div class="form-row">
+        <label for="drugSelect">Drug</label>
+        <select id="drugSelect" required>
+          <option value="" selected disabled>Select a drug</option>
+          <!-- Populated by JS -->
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label for="strengthSelect">Strength</label>
+        <select id="strengthSelect" required disabled>
+          <option value="" selected disabled>Select strength</option>
+          <!-- Populated by JS -->
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label for="qtyInput">Quantity</label>
+        <input id="qtyInput" type="number" min="1" value="1" required />
+      </div>
+
+      <div class="actions">
+        <button type="submit" class="btn-primary">Get Price</button>
+        <button type="button" class="btn-secondary" onclick="resetForm()">Reset</button>
+      </div>
+    </form>
+
+    <div id="result" class="result" aria-live="polite"></div>
+  </main>
+
+  <footer class="site-footer">
+    <small>Demo app • No backend required • Static hosting ready</small>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
