@@ -118,6 +118,29 @@ th, td {
   text-align: left;
 }
 
+/* Highlight table totals */
+.table-total-row {
+  background: rgba(255, 255, 255, 0.08); /* subtle light row */
+}
+
+.table-total-row td {
+  font-weight: 700;
+  color: var(--text);
+}
+
+/* Grand total box */
+#grandTotalBox {
+  margin-top: 20px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  background: rgba(255, 255, 255, 0.15); /* brighter than table totals */
+  color: var(--text);
+  display: inline-block;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+}
+
 
 .result .ok{color:var(--success); font-weight:700}
 .result .warn{color:var(--warning); font-weight:600}
