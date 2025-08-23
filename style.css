@@ -100,6 +100,25 @@ select:focus,input:focus{border-color:var(--accent)}
   align-items:center;
 }
 
+.tables-container {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap; /* stack on smaller screens */
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  max-width: 300px;
+}
+
+th, td {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 8px 12px;
+  text-align: left;
+}
+
+
 .result .ok{color:var(--success); font-weight:700}
 .result .warn{color:var(--warning); font-weight:600}
 .result .err{color:var(--danger); font-weight:700}
