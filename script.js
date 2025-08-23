@@ -96,11 +96,11 @@ function updateTotals() {
   document.getElementById("wegovyTotal").textContent =
     wegovyTotal > 0 ? currency.format(wegovyTotal) : "";
 
-  // Update grand total
-  const grandTotal = mounjaroTotal + wegovyTotal;
-  document.getElementById("grandTotal").textContent =
-    grandTotal > 0 ? currency.format(grandTotal) : "";
-}
+//   // Update grand total
+//   const grandTotal = mounjaroTotal + wegovyTotal;
+//   document.getElementById("grandTotal").textContent =
+//     grandTotal > 0 ? currency.format(grandTotal) : "";
+// }
 
 // Handle qty dropdown changes
 function handleQtyChange(e) {
