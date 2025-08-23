@@ -64,10 +64,9 @@ function renderTable(drug, tableId) {
         `
         )
         .join("")}
-      <!-- Table total row -->
       <tr class="table-total-row">
-        <td colspan="3" style="text-align:right; font-weight:bold;">${drug} Total</td>
-        <td id="${drug.toLowerCase()}Total" style="font-weight:bold;"></td>
+        <td colspan="3" style="text-align:right;">${drug} Total</td>
+        <td id="${drug.toLowerCase()}Total"></td>
       </tr>
     </tbody>
   `;
@@ -90,7 +89,6 @@ function updateTotals() {
     wegovyTotal += qty * price;
   });
 
-  // Update table totals
   document.getElementById("mounjaroTotal").textContent =
     mounjaroTotal > 0 ? currency.format(mounjaroTotal) : "";
   document.getElementById("wegovyTotal").textContent =
@@ -115,12 +113,10 @@ function handleQtyChange(e) {
   updateTotals();
 }
 
-// Init tables
-renderTable("Mounjaro", "mounjaroTable");
-renderTable("Wegovy", "wegovyTable");
+// Initialize once DOM is loaded
+document.addEventListener("DOMContentLoaded", () => {
+  renderTable("Mounjaro", "mounjaroTable");
+  renderTable("Wegovy", "wegovyTable");
 
-// Listen for qty changes
-document.addEventListener("change", handleQtyChange);
-
-// Listen for qty changes
-document.addEventListener("change", handleQtyChange);
+  document.addEventListener("change", handleQtyChange);
+});
