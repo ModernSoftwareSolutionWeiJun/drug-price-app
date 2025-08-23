@@ -124,13 +124,13 @@ function handleQtyChange(e) {
 renderTable("Mounjaro", "mounjaroTable");
 renderTable("Wegovy", "wegovyTable");
 
-// Add Grand Total section under both tables
-const container = document.querySelector(".tables-container");
-const grandTotalDiv = document.createElement("div");
-grandTotalDiv.style.marginTop = "20px";
-grandTotalDiv.style.fontWeight = "bold";
-grandTotalDiv.innerHTML = `Grand Total: <span id="grandTotal"></span>`;
-container.insertAdjacentElement("afterend", grandTotalDiv);
+// // Add Grand Total section under both tables
+// const container = document.querySelector(".tables-container");
+// const grandTotalDiv = document.createElement("div");
+// grandTotalDiv.style.marginTop = "20px";
+// grandTotalDiv.style.fontWeight = "bold";
+// grandTotalDiv.innerHTML = `Grand Total: <span id="grandTotal"></span>`;
+// container.insertAdjacentElement("afterend", grandTotalDiv);
 
 // Listen for qty changes
 document.addEventListener("change", handleQtyChange);
