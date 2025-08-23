@@ -21,4 +21,37 @@ const PRICES = {
   }
 };
 
-const currency = new Intl.NumberFormat(undefined, { style: "currency", currency: "USD", minimumFractionDigits: 2 }); function populateTable(id, data) { const table = document.getElementById(id); if (!table) return; // Build header table.innerHTML = <thead> <tr> <th>Strength</th> <th>Price (per unit)</th> </tr> </thead> <tbody> ${Object.entries(data) .map(([strength, price]) => <tr> <td>${strength}</td> <td>${currency.format(price)}</td> </tr> ) .join('')} </tbody> ; } // Initialize tables populateTable('mounjaroTable', DRUG_DATA.Mounjaro); populateTable('wegovyTable', DRUG_DATA["Wegovy/Semaglutide"]);
+const currency = new Intl.NumberFormat(undefined, {
+  style: "currency",
+  currency: "USD",
+  minimumFractionDigits: 2
+});
+
+function populateTable(id, data) {
+  const table = document.getElementById(id);
+  if (!table) return;
+
+  // Build header
+  table.innerHTML = `
+    <thead>
+      <tr>
+        <th>Strength</th>
+        <th>Price (per unit)</th>
+      </tr>
+    </thead>
+    <tbody>
+      ${Object.entries(data)
+        .map(([strength, price]) => `
+          <tr>
+            <td>${strength}</td>
+            <td>${currency.format(price)}</td>
+          </tr>
+        `)
+        .join('')}
+    </tbody>
+  `;
+}
+
+// Initialize tables
+populateTable('mounjaroTable', DRUG_DATA.Mounjaro);
+populateTable('wegovyTable', DRUG_DATA["Wegovy/Semaglutide"]);
