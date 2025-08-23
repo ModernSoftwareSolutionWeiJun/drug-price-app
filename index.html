@@ -1,51 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Drug Price Calculator</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WEGOVY/SEMAGLUTIDE VS MOUNJARO</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <header class="site-header">
-    <h1>Drug Price Calculator</h1>
-    <p class="tagline">Pick a drug and strength to check the price.</p>
+    <h1>WEGOVY/SEMAGLUTIDE VS MOUNJARO</h1>
+    <p class="tagline">Comparison of available strengths and prices</p>
   </header>
 
   <main class="card">
-    <form id="priceForm" onsubmit="event.preventDefault(); calculatePrice();">
-      <div class="form-row">
-        <label for="drugSelect">Drug</label>
-        <select id="drugSelect" required>
-          <option value="" selected disabled>Select a drug</option>
-          <!-- Populated by JS -->
-        </select>
-      </div>
-
-      <div class="form-row">
-        <label for="strengthSelect">Strength</label>
-        <select id="strengthSelect" required disabled>
-          <option value="" selected disabled>Select strength</option>
-          <!-- Populated by JS -->
-        </select>
-      </div>
-
-      <div class="form-row">
-        <label for="qtyInput">Quantity</label>
-        <input id="qtyInput" type="number" min="1" value="1" required />
-      </div>
-
-      <div class="actions">
-        <button type="submit" class="btn-primary">Get Price</button>
-        <button type="button" class="btn-secondary" onclick="resetForm()">Reset</button>
-      </div>
-    </form>
-
-    <div id="result" class="result" aria-live="polite"></div>
+    <div class="tables-container">
+      <section>
+        <h2>Mounjaro</h2>
+        <table id="mounjaroTable"></table>
+      </section>
+      <section>
+        <h2>Wegovy/Semaglutide</h2>
+        <table id="wegovyTable"></table>
+      </section>
+    </div>
   </main>
 
   <footer class="site-footer">
-    <small>Mounjaro Price fetching app • Static hosting ready</small>
+    <small>WEGOVY/SEMAGLUTIDE VS MOUNJARO price app • Static hosting</small>
   </footer>
 
   <script src="script.js"></script>
