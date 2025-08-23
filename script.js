@@ -8,19 +8,19 @@ const currency = new Intl.NumberFormat(undefined, {
 // Price data
 const PRICES = {
   Mounjaro: {
-    "2.5mg": 550,
-    "5mg": 600,
-    "7.5mg": 650,
-    "10mg": 700,
-    "12.5mg": 750,
-    "15mg": 800
+    "2.5mg": 283,
+    "5mg": 350,
+    "7.5mg": 500,
+    "10mg": 500,
+    "12.5mg": 630,
+    "15mg": 630
   },
   Wegovy: {
-    "0.25mg": 120,
-    "0.5mg": 200,
-    "1mg": 350,
-    "1.7mg": 400,
-    "2.4mg": 450
+    "0.25mg": 250,
+    "0.5mg": 250,
+    "1mg": 250,
+    "1.7mg": 435,
+    "2.4mg": 435
   }
 };
 
