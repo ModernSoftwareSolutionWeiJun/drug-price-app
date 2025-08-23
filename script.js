@@ -73,7 +73,7 @@ function renderTable(drug, tableId) {
   `;
 }
 
-// Calculate totals for each drug and overall
+// Calculate totals for each drug
 function updateTotals() {
   let mounjaroTotal = 0;
   let wegovyTotal = 0;
@@ -95,12 +95,7 @@ function updateTotals() {
     mounjaroTotal > 0 ? currency.format(mounjaroTotal) : "";
   document.getElementById("wegovyTotal").textContent =
     wegovyTotal > 0 ? currency.format(wegovyTotal) : "";
-
-//   // Update grand total
-//   const grandTotal = mounjaroTotal + wegovyTotal;
-//   document.getElementById("grandTotal").textContent =
-//     grandTotal > 0 ? currency.format(grandTotal) : "";
-// }
+}
 
 // Handle qty dropdown changes
 function handleQtyChange(e) {
@@ -124,13 +119,8 @@ function handleQtyChange(e) {
 renderTable("Mounjaro", "mounjaroTable");
 renderTable("Wegovy", "wegovyTable");
 
-// // Add Grand Total section under both tables
-// const container = document.querySelector(".tables-container");
-// const grandTotalDiv = document.createElement("div");
-// grandTotalDiv.style.marginTop = "20px";
-// grandTotalDiv.style.fontWeight = "bold";
-// grandTotalDiv.innerHTML = `Grand Total: <span id="grandTotal"></span>`;
-// container.insertAdjacentElement("afterend", grandTotalDiv);
+// Listen for qty changes
+document.addEventListener("change", handleQtyChange);
 
 // Listen for qty changes
 document.addEventListener("change", handleQtyChange);
