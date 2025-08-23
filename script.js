@@ -1,9 +1,10 @@
 // Data model: drug -> strengths -> price per unit
 const PRICES = {
-  Paracetamol: { "250 mg": 0.20, "500 mg": 0.35, "1 g": 0.60 },
-  Ibuprofen:   { "200 mg": 0.25, "400 mg": 0.45, "600 mg": 0.65 },
-  Amoxicillin: { "250 mg": 0.55, "500 mg": 0.95 },
-  "Metformin": { "500 mg": 0.30, "850 mg": 0.45, "1 g": 0.55 }
+  // Paracetamol: { "250 mg": 0.20, "500 mg": 0.35, "1 g": 0.60 },
+  // Ibuprofen:   { "200 mg": 0.25, "400 mg": 0.45, "600 mg": 0.65 },
+  // Amoxicillin: { "250 mg": 0.55, "500 mg": 0.95 },
+  // "Metformin": { "500 mg": 0.30, "850 mg": 0.45, "1 g": 0.55 },
+  Mounjaro: {"2.5 mg": 283, "5 mg": 350, "7.5 mg": 500, "10 mg": 500, "12.5 mg": 630, "15 mg": 630}
 };
 
 const currency = new Intl.NumberFormat(undefined, {
