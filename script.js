@@ -1,67 +1,97 @@
-// Base cost per unit
 const DRUG_DATA = {
-  Tirzepatide: { "2.5 mg": 283, "5 mg": 350, "7.5 mg": 500, "10 mg": 500, "12.5 mg": 630, "15 mg": 630 },
-  Semaglutide: { "0.25 mg": 250, "0.5 mg": 250, "1 mg": 250, "1.7 mg": 435, "2.4 mg": 435 }
+  Tirzepatide: {
+    "2.5 mg": 283,
+    "5 mg": 350,
+    "7.5 mg": 500,
+    "10 mg": 500,
+    "12.5 mg": 630,
+    "15 mg": 630
+  },
+  Semaglutide: {
+    "0.25 mg": 250,
+    "0.5 mg": 250,
+    "1 mg": 250,
+    "1.7 mg": 435,
+    "2.4 mg": 435
+  }
 };
 
-const MARKUP = 1.6;                     // 60% markup -> Clinic price
-const ROWS = 3;                         // number of editable schedule rows per drug
-const WEEKS = Array.from({length: 13}, (_, i) => `Week ${i*4+1} - ${i*4+4}`);
+const MARKUP = 1.6; // 60% markup for clinic price
+const WEEKS = Array.from({ length: 13 }, (_, i) => `Week ${i * 4 + 1} - ${i * 4 + 4}`);
+const ROWS = 3; // number of rows in the weekly schedule section
 
-const fmt = n => `$${(+n).toFixed(2)}`; // "$123.45" (no "US")
+const fmt = n => `$${(+n).toFixed(2)}`;
 
-function clinicPricesFor(drugObj){
-  // Unique clinic prices derived from strengths (Cost × MARKUP)
-  const uniq = new Set(Object.values(drugObj).map(c => +(c * MARKUP).toFixed(2)));
-  return [...uniq].sort((a,b)=>a-b);
-}
-
-function optionList(prices){
-  return `
-    <option value="0">—</option>
-    ${prices.map(p => `<option value="${p}">${fmt(p)}</option>`).join("")}
-  `;
-}
-
-function populateTable(id, drugObj){
+function populateTable(id, drugObj) {
   const table = document.getElementById(id);
   if (!table) return;
 
-  const prices = clinicPricesFor(drugObj);
+  // 1) STATIC PRICE TABLE (top)
+  const strengthRows = Object.entries(drugObj)
+    .map(([strength, cost]) => {
+      const clinic = cost * MARKUP;
+      return `
+        <tr>
+          <td>${strength}</td>
+          <td>${fmt(cost)}</td>
+          <td>${fmt(clinic)}</td>
+        </tr>`;
+    })
+    .join('');
 
-  // Build header (weeks only)
-  const header = `
+  const staticSection = `
     <thead>
-      <tr>${WEEKS.map(w => `<th>${w}</th>`).join("")}</tr>
+      <tr>
+        <th>Strength</th>
+        <th>Cost Price</th>
+        <th>Clinic Price</th>
+      </tr>
     </thead>
+    <tbody>
+      ${strengthRows}
+    </tbody>
   `;
 
-  // Build body (editable selects)
-  const bodyRows = Array.from({length: ROWS}, () => `
-    <tr>
-      ${WEEKS.map(() => `<td><select class="week-select">${optionList(prices)}</select></td>`).join("")}
-    </tr>
-  `).join("");
+  // 2) WEEKS GRID SECTION (bottom)
+  const weekHeader = WEEKS.map(w => `<th>${w}</th>`).join('');
+  const prices = Object.values(drugObj).map(c => +(c * MARKUP).toFixed(2));
+  const uniqueClinicPrices = [...new Set(prices)].sort((a, b) => a - b);
+  const options = `
+    <option value="0">—</option>
+    ${uniqueClinicPrices.map(p => `<option value="${p}">${fmt(p)}</option>`).join('')}
+  `;
 
-  // Footer totals (bottom-of-column subtotals)
-  const footer = `
+  const weekRows = Array.from({ length: ROWS }, () => `
+    <tr>
+      ${WEEKS.map(() => `<td><select class="week-select">${options}</select></td>`).join('')}
+    </tr>
+  `).join('');
+
+  const weekSection = `
+    <thead>
+      <tr>${weekHeader}</tr>
+    </thead>
+    <tbody class="week-body">
+      ${weekRows}
+    </tbody>
     <tfoot>
-      <tr>${WEEKS.map(() => `<td class="col-total">${fmt(0)}</td>`).join("")}</tr>
+      <tr>${WEEKS.map(() => `<td class="col-total">${fmt(0)}</td>`).join('')}</tr>
     </tfoot>
   `;
 
-  table.innerHTML = header + `<tbody>${bodyRows}</tbody>` + footer;
+  // Combine sections: top static + bottom weeks
+  table.innerHTML = staticSection + '<tr><td colspan="3"></td></tr>' + weekSection;
 
-  // Listen for changes and recompute subtotals
+  // Add event listeners for dropdowns
   table.querySelectorAll(".week-select").forEach(sel => {
     sel.addEventListener("change", () => updateColumnTotals(table));
   });
 }
 
-function updateColumnTotals(table){
+function updateColumnTotals(table) {
   const totals = Array(WEEKS.length).fill(0);
 
-  table.querySelectorAll("tbody tr").forEach(row => {
+  table.querySelectorAll(".week-body tr").forEach(row => {
     row.querySelectorAll("td").forEach((cell, colIdx) => {
       const val = parseFloat(cell.querySelector("select")?.value || "0");
       totals[colIdx] += isNaN(val) ? 0 : val;
@@ -73,6 +103,6 @@ function updateColumnTotals(table){
   });
 }
 
-// Init both tables
+// Initialize tables
 populateTable("tirzepatideTable", DRUG_DATA.Tirzepatide);
 populateTable("semaglutideTable", DRUG_DATA.Semaglutide);
