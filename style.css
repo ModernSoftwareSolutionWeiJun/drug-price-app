@@ -35,7 +35,7 @@ h1 {
 /* Table Styles */
 table {
   border-collapse: collapse;
-  min-width: 800px; /* ensures scroll on smaller screens */
+  min-width: 900px; /* ensures scroll on smaller screens */
   width: 100%;
 }
 
@@ -65,10 +65,12 @@ tbody tr:hover {
   background-color: #0f2a4d;
 }
 
-.subtotal-cell {
+/* Grand Total column styling */
+thead th:last-child,
+tbody td:last-child {
+  background-color: #10273d;
   font-weight: bold;
   color: #ffffff;
-  border-top: 2px solid #778da9;
 }
 
 /* Week selection dropdown */
@@ -84,22 +86,20 @@ select.week-select {
 /* Sticky left columns */
 thead th:nth-child(1),
 thead th:nth-child(2),
-thead th:nth-child(3),
-tbody td:nth-child(1),
-tbody td:nth-child(2),
-tbody td:nth-child(3) {
+thead th:nth-child(3) {
   position: sticky;
   left: 0;
   background-color: #1b263b;
   z-index: 2;
 }
 
-/* Subtotal row */
-tfoot td {
-  font-weight: bold;
+tbody td:nth-child(1),
+tbody td:nth-child(2),
+tbody td:nth-child(3) {
+  position: sticky;
+  left: 0;
   background-color: #1b263b;
-  padding: 10px;
-  border-top: 2px solid #778da9;
+  z-index: 1;
 }
 
 /* Responsive Adjustments */
@@ -110,7 +110,7 @@ tfoot td {
   }
 
   table {
-    min-width: 600px;
+    min-width: 700px;
   }
 }
 
@@ -121,7 +121,7 @@ tfoot td {
   }
 
   table {
-    min-width: 500px;
+    min-width: 550px;
   }
 
   h1 {
