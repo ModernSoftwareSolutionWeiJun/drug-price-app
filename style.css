@@ -128,3 +128,14 @@ tbody td:nth-child(3) {
     font-size: 18px;
   }
 }
+
+main {
+  flex: 1; /* push footer down */
+}
+
+.site-footer {
+  text-align: center;
+  color: var(--muted);
+  padding: 12px;
+  margin-top: auto; /* keeps it at the bottom */
+}
