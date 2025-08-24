@@ -82,6 +82,20 @@ function updateRowSubtotals(table) {
   });
 }
 
+function updateTableTotals(table) {
+  table.querySelectorAll('tbody tr').forEach(row => {
+    let grandTotal = 0;
+
+    row.querySelectorAll('.week-cell').forEach(cell => {
+      const val = parseFloat(cell.querySelector('input')?.value || 0);
+      grandTotal += val;
+    });
+
+    const totalCell = row.querySelector('.grand-total-cell');
+    if (totalCell) totalCell.textContent = `$${grandTotal.toFixed(2)}`;
+  });
+}
+
 // Initialize both tables
 populateTable("tirzepatideTable", DRUG_DATA.Tirzepatide);
 populateTable("semaglutideTable", DRUG_DATA.Semaglutide);
