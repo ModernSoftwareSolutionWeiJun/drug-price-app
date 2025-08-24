@@ -38,6 +38,12 @@ h1 {
   max-width: 100%;
 }
 
+/* Highlight total row */
+.table-total-row {
+  background: rgba(255, 255, 255, 0.12);
+  font-weight: bold;
+}
+
 /* Table Styles */
 table {
   border-collapse: collapse;
