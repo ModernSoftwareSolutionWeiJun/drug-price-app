@@ -29,12 +29,12 @@ function populateTable(id, drugObj) {
   // Build rows for each strength
   const rows = Object.entries(drugObj)
     .map(([strength, cost]) => {
-      const clinicPrice = cost * MARKUP;
+      const patientPrice = cost * MARKUP;
       const weekCells = WEEKS.map(() => `
         <td>
-          <select class="week-select" data-price="${clinicPrice}">
+          <select class="week-select" data-price="${patientPrice}">
             <option value="0">—</option>
-            <option value="${clinicPrice}">${fmt(clinicPrice)}</option>
+            <option value="${patientPrice}">${fmt(patientPrice)}</option>
           </select>
         </td>
       `).join('');
@@ -43,7 +43,7 @@ function populateTable(id, drugObj) {
         <tr>
           <td>${strength}</td>
           <td>${fmt(cost)}</td>
-          <td>${fmt(clinicPrice)}</td>
+          <td>${fmt(patientPrice)}</td>
           ${weekCells}
           <td class="subtotal-cell">${fmt(0)}</td>
         </tr>
@@ -51,29 +51,42 @@ function populateTable(id, drugObj) {
     })
     .join('');
 
+  // Add a footer row for totals
+  const footerRow = `
+    <tr class="table-total-row">
+      <td colspan="${3 + WEEKS.length}" style="text-align:right; font-weight:bold;">Total</td>
+      <td id="${id}-grand-total" style="font-weight:bold;">${fmt(0)}</td>
+    </tr>
+  `;
+
   table.innerHTML = `
     <thead>
       <tr>
         <th>Strength</th>
         <th>Cost Price</th>
-        <th>Clinic Price</th>
+        <th>Patient Price</th>
         ${weekHeader}
         <th>Subtotal</th>
       </tr>
     </thead>
     <tbody>
       ${rows}
+      ${footerRow}
     </tbody>
   `;
 
   // Add listeners for week selects
   table.querySelectorAll(".week-select").forEach(select => {
-    select.addEventListener("change", () => updateRowSubtotals(table));
+    select.addEventListener("change", () => {
+      updateRowSubtotals(table);
+      updateTableGrandTotal(table, `${id}-grand-total`);
+    });
   });
 }
 
 function updateRowSubtotals(table) {
   table.querySelectorAll("tbody tr").forEach(row => {
+    if (row.classList.contains("table-total-row")) return; // skip total row
     let subtotal = 0;
     row.querySelectorAll(".week-select").forEach(sel => {
       subtotal += parseFloat(sel.value) || 0;
@@ -82,18 +95,14 @@ function updateRowSubtotals(table) {
   });
 }
 
-function updateTableTotals(table) {
-  table.querySelectorAll('tbody tr').forEach(row => {
-    let grandTotal = 0;
-
-    row.querySelectorAll('.week-cell').forEach(cell => {
-      const val = parseFloat(cell.querySelector('input')?.value || 0);
-      grandTotal += val;
-    });
-
-    const totalCell = row.querySelector('.grand-total-cell');
-    if (totalCell) totalCell.textContent = `$${grandTotal.toFixed(2)}`;
+function updateTableGrandTotal(table, totalCellId) {
+  let grandTotal = 0;
+  table.querySelectorAll("tbody tr").forEach(row => {
+    if (row.classList.contains("table-total-row")) return;
+    const subtotalText = row.querySelector(".subtotal-cell").textContent.replace("$", "");
+    grandTotal += parseFloat(subtotalText) || 0;
   });
+  document.getElementById(totalCellId).textContent = fmt(grandTotal);
 }
 
 // Initialize both tables
