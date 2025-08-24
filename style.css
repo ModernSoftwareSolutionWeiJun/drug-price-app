@@ -143,5 +143,9 @@ main {
   text-align: center;
   color: var(--muted);
   padding: 12px;
-  margin-top: auto; /* keeps it at the bottom */
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: var(--card);
 }
